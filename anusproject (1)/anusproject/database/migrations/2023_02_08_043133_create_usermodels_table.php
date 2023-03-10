@@ -18,6 +18,10 @@ class CreateUsermodelsTable extends Migration
             $table->string("name");
             $table->string("email");
             $table->string("password");
+
+            $table->string("std_id");
+            $table->foreign("std_id")->on("id")->references("students");
+
             $table->timestamps();
         });
     }

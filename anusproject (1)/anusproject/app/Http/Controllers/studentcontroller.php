@@ -96,6 +96,8 @@ class studentcontroller extends Controller
                     $user->name = $res->nameinput;
                     $user->email = $res->emailinput;
                     $user->password = $res->passwordinput;
+                    $user->Std_id = $studcheck->Std_id;
+
                     $user->save();
                 }
                 else{
