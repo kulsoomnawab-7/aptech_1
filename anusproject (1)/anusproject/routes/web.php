@@ -48,3 +48,8 @@ Route::get("/labs", [studentcontroller::class,'labs']);
 Route::get("/lab_systems", [studentcontroller::class,'lab_systems_']);
 // exam fetch work
 Route::get("/examfetch", [studentcontroller::class,'Fetch_Exam']);
+// announcement work
+Route::get("/announcement", [studentcontroller::class,'announcement']);
+//  attendances work
+Route::get("/attendances", [studentcontroller::class,'attendances']);
+

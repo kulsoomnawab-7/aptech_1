@@ -29,12 +29,16 @@ class studentcontroller extends Controller
         {
             $data=usermodels::where('id',$login['0']->id)->first();
             session()->put('user',$data);
-            // session(["sessionid"=>$login->id]);
+            // session(["sessionid"=>$login->std_id]);
             // session(["sessionusername"=>$login->name]);
-            // session(["sessionuseremail"=>$login->email]);      
+            session(["user"=>$data->std_id]);
+            echo session('user');
+            // echo session()->put('user',$data);      
             // if(session()->get('Login_post')){
-                $student_data = DB::table('examsubjectmasters')->where('Curr_ID' ,session()->get('user')['id'])->orderBy('id','desc')->get();
-                return view('student_dashboard',compact('student_data'));
+                $announcement = DB::table('announcements')->orderBy('id','desc')->limit(1)->get();
+                $attendances = DB::table('attendances')->orderBy('id','desc')->limit(1)->get();
+                $student_data = DB::table('examsubjectmasters')->where('Std_ID' ,session('user'))->orderBy('id','desc')->limit(1)->get();
+                return view('student_dashboard',compact('student_data' ,'announcement','attendances'));
                 // else{
                 //   return view('login');
                 // }
@@ -162,22 +166,22 @@ class studentcontroller extends Controller
     public function Fetch_Exam(Request $req)
     {
 
-        
-
         $session = session('sessionuseremail');
         echo $session;
 
-
-            $examfetch = DB::table('batches')->join('modulars','modulars.Curr_ID','batches.Curr_ID')
-            ->where('Curr_ID','3')
-            // ->where('students.student_email',session('sessionuseremail'))
-            ->get();
-
-            // $examfetch = DB::table('modulars')
-            // ->where('Curr_ID','3')
-            // ->where('Curr_ID',$studcheck)->get();
+        $examfetch = DB::table('modulars')->where('Std_ID' ,session('user'))->orderBy('id','desc')->get();
             return view('examfetch',compact('examfetch')); 
 
         
+    }
+    public function announcement()
+    {
+       $announcement = DB::table('announcements')->orderBy('id','desc')->get();
+       return view('announcement',compact('announcement'));
+    }
+    public function attendances()
+    {
+       $attendances = DB::table('attendances')->orderBy('id','desc')->get();
+       return view('attendances',compact('attendances'));
     }
 }
