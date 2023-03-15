@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2023 at 12:11 PM
+-- Generation Time: Mar 15, 2023 at 09:45 AM
 -- Server version: 5.7.31
--- PHP Version: 7.3.21
+-- PHP Version: 8.1.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -26,7 +26,7 @@ DELIMITER $$
 -- Procedures
 --
 DROP PROCEDURE IF EXISTS `GetAllProducts`$$
-CREATE DEFINER=`azfam`@`%` PROCEDURE `GetAllProducts` ()  BEGIN
+CREATE DEFINER=`azfam`@`%` PROCEDURE `GetAllProducts` ()   BEGIN
 	SELECT *  FROM student__atts;
 END$$
 
@@ -41,6 +41,7 @@ DELIMITER ;
 DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Sem_img` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Text` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -55,13 +56,13 @@ CREATE TABLE IF NOT EXISTS `announcements` (
 -- Dumping data for table `announcements`
 --
 
-INSERT INTO `announcements` (`id`, `Text`, `Title`, `Status`, `date`, `time`, `created_at`, `updated_at`) VALUES
-(1, 'Technical Seminar scheduled on \"Personal Assistant Using Python\"', 'Technical Seminar', '0', '2022-02-19', '15:00', '2022-02-18 12:47:24', '2022-02-18 12:47:24'),
-(2, 'Academic audit by FSO', 'Academic Audit', '0', '2022-02-21', '09:00', '2022-02-18 12:48:16', '2022-02-18 12:48:16'),
-(3, 'Recruitment Drive for Bahria University students scheduled', 'University Recruitment Drive', '0', '2022-02-23', '15:00', '2022-02-18 12:49:05', '2022-02-18 12:49:05'),
-(4, 'Convocation at Marriott for 2020-2021 passouts', 'Convocation - 2021-2022', '0', '2022-03-05', '09:00', '2022-02-18 12:50:12', '2022-02-18 12:50:12'),
-(5, 'Batch Orientation scheduled by Tanzeel\r\nBatch Commencement Date: 24-Feb-2022\r\nFaculty: Niha', 'Orientation- 2202B', '0', '2022-02-22', '11:00', '2022-02-18 12:51:43', '2022-02-18 12:51:43'),
-(6, 'Cash Prize Distribution for Talent Hunt Winners on Seminar Day', 'Talent Hunt - Prize Distribution', '0', '2022-02-19', '16:00', '2022-02-18 12:52:57', '2022-02-18 12:52:57');
+INSERT INTO `announcements` (`id`, `Sem_img`, `Text`, `Title`, `Status`, `date`, `time`, `created_at`, `updated_at`) VALUES
+(1, 'favicon.png', 'Technical Seminar scheduled on \"Personal Assistant Using Python\"', 'Technical Seminar', '0', '2022-02-19', '15:00', '2022-02-18 12:47:24', '2022-02-18 12:47:24'),
+(2, 'favicon.png', 'Academic audit by FSO', 'Academic Audit', '0', '2022-02-21', '09:00', '2022-02-18 12:48:16', '2022-02-18 12:48:16'),
+(3, 'favicon.png', 'Recruitment Drive for Bahria University students scheduled', 'University Recruitment Drive', '0', '2022-02-23', '15:00', '2022-02-18 12:49:05', '2022-02-18 12:49:05'),
+(4, 'favicon.png', 'Convocation at Marriott for 2020-2021 passouts', 'Convocation - 2021-2022', '0', '2022-03-05', '09:00', '2022-02-18 12:50:12', '2022-02-18 12:50:12'),
+(5, 'favicon.png', 'Batch Orientation scheduled by Tanzeel\r\nBatch Commencement Date: 24-Feb-2022\r\nFaculty: Niha', 'Orientation- 2202B', '0', '2022-02-22', '11:00', '2022-02-18 12:51:43', '2022-02-18 12:51:43'),
+(6, 'favicon.png', 'Cash Prize Distribution for Talent Hunt Winners on Seminar Day', 'Talent Hunt - Prize Distribution', '0', '2022-02-19', '16:00', '2022-02-18 12:52:57', '2022-02-18 12:52:57');
 
 -- --------------------------------------------------------
 
@@ -4260,7 +4261,15 @@ CREATE TABLE IF NOT EXISTS `attendances` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `attendances_std_id_foreign` (`Std_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `attendances`
+--
+
+INSERT INTO `attendances` (`id`, `Std_ID`, `Month`, `Classes_Held`, `Classes_Attended`, `created_at`, `updated_at`) VALUES
+(1, 'Student1144019', 'september', 13, 12, NULL, NULL),
+(2, 'Student1142648', 'June', 13, 13, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4488,7 +4497,7 @@ CREATE TABLE IF NOT EXISTS `batches2` (
   KEY `fk_curr` (`Curr_ID`),
   KEY `fk_currfaculty` (`current_faculty`),
   KEY `fk_sem` (`Current_Sem`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `batches2`
@@ -6907,6 +6916,7 @@ CREATE TABLE IF NOT EXISTS `examsubjectmasters` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Curr_ID` bigint(20) UNSIGNED NOT NULL,
   `Sem_ID` bigint(20) UNSIGNED NOT NULL,
+  `Std_ID` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ExamType` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Subject` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -6920,118 +6930,118 @@ CREATE TABLE IF NOT EXISTS `examsubjectmasters` (
 -- Dumping data for table `examsubjectmasters`
 --
 
-INSERT INTO `examsubjectmasters` (`id`, `Curr_ID`, `Sem_ID`, `ExamType`, `Subject`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, 'IT1', 'Web Application Development', '2019-08-05 13:37:18', '2019-08-05 13:37:18'),
-(2, 1, 6, 'IT2', 'Enterprise Application Programming', '2019-08-05 13:37:19', '2019-08-05 13:37:19'),
-(3, 1, 6, 'IT3', 'Rich Internet Application Development', '2019-08-05 13:37:20', '2019-08-05 13:37:20'),
-(4, 1, 6, 'IT4', 'Developing Mobile Applications', '2019-08-05 13:37:21', '2019-08-05 13:37:21'),
-(5, 1, 6, 'R1', 'Enterprise Application Programming', '2019-08-05 13:37:22', '2019-08-05 13:37:22'),
-(6, 1, 6, 'R1', 'Developing Mobile Applications', '2019-08-05 13:37:24', '2019-08-05 13:37:24'),
-(7, 2, 1, 'IT1', 'Programming Principles and Elementary\nProgramming', '2019-08-05 13:37:25', '2019-08-05 13:37:25'),
-(8, 2, 1, 'IT1', 'Logic Building and Elementary\nProgramming', '2019-08-05 13:37:26', '2019-08-05 13:37:26'),
-(9, 2, 1, 'IT2', 'Building Next Generation\nWebsites', '2019-08-05 13:37:27', '2019-08-05 13:37:27'),
-(10, 2, 1, 'IT2', 'UI/UX for Responsive Web\nDesign', '2019-08-05 13:37:28', '2019-08-05 13:37:28'),
-(11, 2, 1, 'IT3', 'Data Management (SQL Server)', '2019-08-05 13:37:29', '2019-08-05 13:37:29'),
-(12, 2, 1, 'R1', 'Logic Building and Elementary Programming', '2019-08-05 13:37:31', '2019-08-05 13:37:31'),
-(13, 2, 1, 'R1', 'Data Management (SQL Server)', '2019-08-05 13:37:32', '2019-08-05 13:37:32'),
-(14, 2, 2, 'IT1', 'Markup Language and JSON', '2019-08-05 13:37:33', '2019-08-05 13:37:33'),
-(15, 2, 2, 'IT1', 'Object Oriented Programming Concepts  ', '2019-08-05 13:37:34', '2019-08-05 13:37:34'),
-(16, 2, 2, 'IT1', 'Fundamentals of Java', '2019-08-05 13:37:35', '2019-08-05 13:37:35'),
-(17, 2, 2, 'IT2', 'Application Programming using C#', '2019-08-05 13:37:36', '2019-08-05 13:37:36'),
-(18, 2, 2, 'IT3', 'Windows Forms Programming', '2019-08-05 13:37:37', '2019-08-05 13:37:37'),
-(19, 2, 2, 'R1', 'Fundamentals of Java', '2019-08-05 13:37:38', '2019-08-05 13:37:38'),
-(20, 2, 2, 'R1', 'Application Programming using C#', '2019-08-05 13:37:39', '2019-08-05 13:37:39'),
-(21, 2, 3, 'IT1', 'Windows Store Apps Development – I', '2019-08-05 13:37:40', '2019-08-05 13:37:40'),
-(22, 2, 3, 'IT1', 'Windows Store Apps Development – II', '2019-08-05 13:37:41', '2019-08-05 13:37:41'),
-(23, 2, 3, 'IT2', 'Web Application Development (ASP.NET MVC) ', '2019-08-05 13:37:42', '2019-08-05 13:37:42'),
-(24, 2, 3, 'IT3', 'Enterprise Application Programming in .NET', '2019-08-05 13:37:43', '2019-08-05 13:37:43'),
-(25, 2, 3, 'IT3', 'Rich Internet Application Development (AJAX .NET) ', '2019-08-05 13:37:44', '2019-08-05 13:37:44'),
-(26, 2, 3, 'R1', 'Web Application Development (ASP.NET MVC)', '2019-08-05 13:37:45', '2019-08-05 13:37:45'),
-(27, 2, 3, 'R1', 'Developing Mobile Applications (Windows Phone)', '2019-08-05 13:37:47', '2019-08-05 13:37:47'),
-(28, 2, 4, 'IT1', 'Fundamentals of Linux Operating System', '2019-08-05 13:37:48', '2019-08-05 13:37:48'),
-(29, 2, 4, 'IT1', 'Working with Open Source Web Server (Apache) ', '2019-08-05 13:37:49', '2019-08-05 13:37:49'),
-(30, 2, 4, 'IT2', 'Querying with MySQL', '2019-08-05 13:37:50', '2019-08-05 13:37:50'),
-(31, 2, 4, 'IT2', 'Web Application Development using PHP', '2019-08-05 13:37:51', '2019-08-05 13:37:51'),
-(32, 2, 4, 'IT3', 'Optimize Web for Search Engines', '2019-08-05 13:37:52', '2019-08-05 13:37:52'),
-(33, 2, 4, 'R1', 'Querying with MySQL', '2019-08-05 13:37:54', '2019-08-05 13:37:54'),
-(34, 2, 4, 'R1', 'Web Application Development using PHP', '2019-08-05 13:37:55', '2019-08-05 13:37:55'),
-(35, 2, 5, 'IT1', 'Agile System Development Life Cycle for software projects ', '2019-08-05 13:37:56', '2019-08-05 13:37:56'),
-(36, 2, 5, 'IT1', 'Software Engineering Principles', '2019-08-05 13:37:57', '2019-08-05 13:37:57'),
-(37, 2, 5, 'IT2', 'Software Project Management', '2019-08-05 13:37:58', '2019-08-05 13:37:58'),
-(38, 2, 5, 'IT2', 'Software Quality Assurance, Verification, Validation and Testing ', '2019-08-05 13:37:59', '2019-08-05 13:37:59'),
-(39, 2, 5, 'IT3', 'Securing Web Applications', '2019-08-05 13:38:00', '2019-08-05 13:38:00'),
-(40, 2, 5, 'IT3', 'Fundamentals of IoT', '2019-08-05 13:38:01', '2019-08-05 13:38:01'),
-(41, 2, 6, 'IT1', 'Developing Mobile Applications using Android ', '2019-08-05 13:38:02', '2019-08-05 13:38:02'),
-(42, 2, 6, 'IT1', 'Testing Android Applications', '2019-08-05 13:38:03', '2019-08-05 13:38:03'),
-(43, 2, 6, 'IT2', 'Xcode Application Development', '2019-08-05 13:38:04', '2019-08-05 13:38:04'),
-(44, 2, 6, 'IT2', 'Programming in Swift', '2019-08-05 13:38:05', '2019-08-05 13:38:05'),
-(45, 2, 6, 'R1', 'Developing Mobile Applications using Android  ', '2019-08-05 13:38:06', '2019-08-05 13:38:06'),
-(46, 2, 6, 'R1', 'Programming in Swift ', '2019-08-05 13:38:09', '2019-08-05 13:38:09'),
-(47, 3, 1, 'M1', 'Office Automation (Office 2016)', '2019-08-05 13:38:10', '2019-08-05 13:38:10'),
-(48, 3, 1, 'M2', 'Logic Building and Elementary Programming ', '2019-08-05 13:38:12', '2019-08-05 13:38:12'),
-(49, 3, 1, 'M3', 'Building Next Generation Websites', '2019-08-05 13:38:13', '2019-08-05 13:38:13'),
-(50, 3, 1, 'M4', 'Programming with JavaScript', '2019-08-05 13:38:14', '2019-08-05 13:38:14'),
-(51, 3, 1, 'M5', 'Bootstrap and Jquery', '2019-08-05 13:38:15', '2019-08-05 13:38:15'),
-(52, 3, 1, 'M6', 'AngularJS', '2019-08-05 13:38:16', '2019-08-05 13:38:16'),
-(53, 3, 1, 'M7', 'UI/UX for Responsive Design', '2019-08-05 13:38:17', '2019-08-05 13:38:17'),
-(54, 3, 1, 'R1', 'Logic Building and Elementary Programming', '2019-08-05 13:38:18', '2019-08-05 13:38:18'),
-(55, 3, 1, 'R2', 'Building Next Generation Websites', '2019-08-05 13:38:19', '2019-08-05 13:38:19'),
-(56, 3, 1, 'R3', 'Programming with JavaScript', '2019-08-05 13:38:20', '2019-08-05 13:38:20'),
-(57, 3, 1, 'R4', 'Bootstrap and Jquery', '2019-08-05 13:38:21', '2019-08-05 13:38:21'),
-(58, 3, 1, 'R5', 'AngularJS', '2019-08-05 13:38:22', '2019-08-05 13:38:22'),
-(59, 3, 2, 'M1', 'Markup Language and JSON', '2019-08-05 13:38:24', '2019-08-05 13:38:24'),
-(60, 3, 2, 'M2', 'Database Management (SQL Server)', '2019-08-05 13:38:25', '2019-08-05 13:38:25'),
-(61, 3, 2, 'M3', 'Programming in C#', '2019-08-05 13:38:26', '2019-08-05 13:38:26'),
-(62, 3, 2, 'M4', 'Developing ASP.NET MVC Web Applications ', '2019-08-05 13:38:27', '2019-08-05 13:38:27'),
-(63, 3, 2, 'M5', 'Developing Microsoft Azure and Web Services ', '2019-08-05 13:38:28', '2019-08-05 13:38:28'),
-(64, 3, 2, 'R1', 'Database Management (SQL Server)', '2019-08-05 13:38:29', '2019-08-05 13:38:29'),
-(65, 3, 2, 'R2', 'Programming in C#', '2019-08-05 13:38:30', '2019-08-05 13:38:30'),
-(66, 3, 2, 'R3', 'Developing ASP.NET MVC Web Applications', '2019-08-05 13:38:31', '2019-08-05 13:38:31'),
-(67, 3, 2, 'R4', 'Developing Microsoft Azure and Web Services ', '2019-08-05 13:38:32', '2019-08-05 13:38:32'),
-(84, 3, 3, 'M1', 'Working with Content Management System', '2019-11-01 12:39:44', '2019-11-01 12:39:44'),
-(85, 3, 3, 'M2', 'Optimize Web for Search Engines', '2019-11-01 12:39:46', '2019-11-01 12:39:46'),
-(86, 3, 3, 'M3', 'Querying with MySQL', '2019-11-01 12:39:47', '2019-11-01 12:39:47'),
-(87, 3, 3, 'M4', 'Web Application Development using PHP', '2019-11-01 12:39:48', '2019-11-01 12:39:48'),
-(88, 3, 3, 'M5', 'PHP Framework for Web Applications', '2019-11-01 12:39:49', '2019-11-01 12:39:49'),
-(89, 3, 3, 'M6', 'Securing Web Applications', '2019-11-01 12:39:51', '2019-11-01 12:39:51'),
-(90, 3, 3, 'R1', 'Querying with MySQL', '2019-11-01 12:39:52', '2019-11-01 12:39:52'),
-(91, 3, 3, 'R2', 'Web Application Development using PHP', '2019-11-01 12:39:53', '2019-11-01 12:39:53'),
-(92, 3, 4, 'M1', 'Fundamentals of Java', '2020-10-15 11:35:28', '2020-10-15 11:35:28'),
-(93, 3, 4, 'M2', 'Android App Development', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
-(94, 3, 4, 'M3', 'XCode Application Development', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
-(95, 3, 4, 'M4', 'Programming in Swift', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
-(96, 3, 4, 'R1', 'Fundamentals of Java', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
-(97, 3, 4, 'R2', 'Android App Development', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
-(98, 3, 4, 'R3', 'XCode Application Development', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
-(99, 3, 4, 'R4', 'Programming in Swift', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
-(100, 3, 5, 'M1', 'Agile and DevOps ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(101, 3, 5, 'M2', 'Financial Data Analysis with MS Excel ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(102, 3, 5, 'M3', 'Python Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(103, 3, 5, 'M4', 'R Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(104, 3, 5, 'R1', 'Financial Data Analysis with MS Excel ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(105, 3, 5, 'R2', 'Python Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(106, 3, 5, 'R3', 'R Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(107, 3, 6, 'M1', 'IoT Hardware [Focus on sensors]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(108, 3, 6, 'M2', 'IoT Networking', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(109, 3, 6, 'M3', 'Programming the IoT [Python]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(110, 3, 6, 'R1', 'Programming the IoT [Python]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
-(111, 4, 1, 'M1', 'Office Automation', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(112, 4, 1, 'M2', 'Building Modern Websites', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(113, 4, 1, 'M3', 'Bootstrap and Jquery', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(114, 4, 1, 'M4', 'UI/UX for Responsive Web Design', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(115, 4, 1, 'M5', 'Optimize Web for Search Engines', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(116, 4, 1, 'R1', 'Building Modern Websites', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(117, 4, 1, 'R2', 'Bootstrap and Jquery', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
-(118, 4, 2, 'M1', 'Distributed Version Control', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(119, 4, 2, 'M2', 'Markup Language & JSON', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(120, 4, 2, 'M3', 'Programming with JavaScript', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(121, 4, 2, 'M4', 'Working with MySQL', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(122, 4, 2, 'M5', 'Dynamic Website Development using PHP', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(123, 4, 2, 'M6', 'Laravel Framework for Web Applications using PHP ', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(124, 4, 2, 'R1', 'Programming with JavaScript', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(125, 4, 2, 'R2', 'Working with MySQL', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(126, 4, 2, 'R3', 'Dynamic Website Development using PHP', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
-(127, 4, 2, 'R4', 'Laravel Framework for Web Applications using PHP ', '2022-03-15 14:25:02', '2022-03-15 14:25:02');
+INSERT INTO `examsubjectmasters` (`id`, `Curr_ID`, `Sem_ID`, `Std_ID`, `ExamType`, `Subject`, `created_at`, `updated_at`) VALUES
+(1, 1, 6, NULL, 'IT1', 'Web Application Development', '2019-08-05 13:37:18', '2019-08-05 13:37:18'),
+(2, 1, 6, NULL, 'IT2', 'Enterprise Application Programming', '2019-08-05 13:37:19', '2019-08-05 13:37:19'),
+(3, 1, 6, NULL, 'IT3', 'Rich Internet Application Development', '2019-08-05 13:37:20', '2019-08-05 13:37:20'),
+(4, 1, 6, NULL, 'IT4', 'Developing Mobile Applications', '2019-08-05 13:37:21', '2019-08-05 13:37:21'),
+(5, 1, 6, NULL, 'R1', 'Enterprise Application Programming', '2019-08-05 13:37:22', '2019-08-05 13:37:22'),
+(6, 1, 6, NULL, 'R1', 'Developing Mobile Applications', '2019-08-05 13:37:24', '2019-08-05 13:37:24'),
+(7, 2, 1, NULL, 'IT1', 'Programming Principles and Elementary\nProgramming', '2019-08-05 13:37:25', '2019-08-05 13:37:25'),
+(8, 2, 1, NULL, 'IT1', 'Logic Building and Elementary\nProgramming', '2019-08-05 13:37:26', '2019-08-05 13:37:26'),
+(9, 2, 1, NULL, 'IT2', 'Building Next Generation\nWebsites', '2019-08-05 13:37:27', '2019-08-05 13:37:27'),
+(10, 2, 1, NULL, 'IT2', 'UI/UX for Responsive Web\nDesign', '2019-08-05 13:37:28', '2019-08-05 13:37:28'),
+(11, 2, 1, NULL, 'IT3', 'Data Management (SQL Server)', '2019-08-05 13:37:29', '2019-08-05 13:37:29'),
+(12, 2, 1, NULL, 'R1', 'Logic Building and Elementary Programming', '2019-08-05 13:37:31', '2019-08-05 13:37:31'),
+(13, 2, 1, NULL, 'R1', 'Data Management (SQL Server)', '2019-08-05 13:37:32', '2019-08-05 13:37:32'),
+(14, 2, 2, NULL, 'IT1', 'Markup Language and JSON', '2019-08-05 13:37:33', '2019-08-05 13:37:33'),
+(15, 2, 2, NULL, 'IT1', 'Object Oriented Programming Concepts  ', '2019-08-05 13:37:34', '2019-08-05 13:37:34'),
+(16, 2, 2, NULL, 'IT1', 'Fundamentals of Java', '2019-08-05 13:37:35', '2019-08-05 13:37:35'),
+(17, 2, 2, NULL, 'IT2', 'Application Programming using C#', '2019-08-05 13:37:36', '2019-08-05 13:37:36'),
+(18, 2, 2, NULL, 'IT3', 'Windows Forms Programming', '2019-08-05 13:37:37', '2019-08-05 13:37:37'),
+(19, 2, 2, NULL, 'R1', 'Fundamentals of Java', '2019-08-05 13:37:38', '2019-08-05 13:37:38'),
+(20, 2, 2, NULL, 'R1', 'Application Programming using C#', '2019-08-05 13:37:39', '2019-08-05 13:37:39'),
+(21, 2, 3, NULL, 'IT1', 'Windows Store Apps Development – I', '2019-08-05 13:37:40', '2019-08-05 13:37:40'),
+(22, 2, 3, NULL, 'IT1', 'Windows Store Apps Development – II', '2019-08-05 13:37:41', '2019-08-05 13:37:41'),
+(23, 2, 3, 'Student1144019', 'IT2', 'Web Application Development (ASP.NET MVC) ', '2019-08-05 13:37:42', '2019-08-05 13:37:42'),
+(24, 2, 3, NULL, 'IT3', 'Enterprise Application Programming in .NET', '2019-08-05 13:37:43', '2019-08-05 13:37:43'),
+(25, 2, 3, 'Student1142648', 'IT3', 'Rich Internet Application Development (AJAX .NET) ', '2019-08-05 13:37:44', '2019-08-05 13:37:44'),
+(26, 2, 3, NULL, 'R1', 'Web Application Development (ASP.NET MVC)', '2019-08-05 13:37:45', '2019-08-05 13:37:45'),
+(27, 2, 3, NULL, 'R1', 'Developing Mobile Applications (Windows Phone)', '2019-08-05 13:37:47', '2019-08-05 13:37:47'),
+(28, 2, 4, NULL, 'IT1', 'Fundamentals of Linux Operating System', '2019-08-05 13:37:48', '2019-08-05 13:37:48'),
+(29, 2, 4, NULL, 'IT1', 'Working with Open Source Web Server (Apache) ', '2019-08-05 13:37:49', '2019-08-05 13:37:49'),
+(30, 2, 4, NULL, 'IT2', 'Querying with MySQL', '2019-08-05 13:37:50', '2019-08-05 13:37:50'),
+(31, 2, 4, NULL, 'IT2', 'Web Application Development using PHP', '2019-08-05 13:37:51', '2019-08-05 13:37:51'),
+(32, 2, 4, NULL, 'IT3', 'Optimize Web for Search Engines', '2019-08-05 13:37:52', '2019-08-05 13:37:52'),
+(33, 2, 4, NULL, 'R1', 'Querying with MySQL', '2019-08-05 13:37:54', '2019-08-05 13:37:54'),
+(34, 2, 4, NULL, 'R1', 'Web Application Development using PHP', '2019-08-05 13:37:55', '2019-08-05 13:37:55'),
+(35, 2, 5, NULL, 'IT1', 'Agile System Development Life Cycle for software projects ', '2019-08-05 13:37:56', '2019-08-05 13:37:56'),
+(36, 2, 5, NULL, 'IT1', 'Software Engineering Principles', '2019-08-05 13:37:57', '2019-08-05 13:37:57'),
+(37, 2, 5, NULL, 'IT2', 'Software Project Management', '2019-08-05 13:37:58', '2019-08-05 13:37:58'),
+(38, 2, 5, NULL, 'IT2', 'Software Quality Assurance, Verification, Validation and Testing ', '2019-08-05 13:37:59', '2019-08-05 13:37:59'),
+(39, 2, 5, NULL, 'IT3', 'Securing Web Applications', '2019-08-05 13:38:00', '2019-08-05 13:38:00'),
+(40, 2, 5, NULL, 'IT3', 'Fundamentals of IoT', '2019-08-05 13:38:01', '2019-08-05 13:38:01'),
+(41, 2, 6, NULL, 'IT1', 'Developing Mobile Applications using Android ', '2019-08-05 13:38:02', '2019-08-05 13:38:02'),
+(42, 2, 6, NULL, 'IT1', 'Testing Android Applications', '2019-08-05 13:38:03', '2019-08-05 13:38:03'),
+(43, 2, 6, NULL, 'IT2', 'Xcode Application Development', '2019-08-05 13:38:04', '2019-08-05 13:38:04'),
+(44, 2, 6, NULL, 'IT2', 'Programming in Swift', '2019-08-05 13:38:05', '2019-08-05 13:38:05'),
+(45, 2, 6, NULL, 'R1', 'Developing Mobile Applications using Android  ', '2019-08-05 13:38:06', '2019-08-05 13:38:06'),
+(46, 2, 6, NULL, 'R1', 'Programming in Swift ', '2019-08-05 13:38:09', '2019-08-05 13:38:09'),
+(47, 3, 1, NULL, 'M1', 'Office Automation (Office 2016)', '2019-08-05 13:38:10', '2019-08-05 13:38:10'),
+(48, 3, 1, NULL, 'M2', 'Logic Building and Elementary Programming ', '2019-08-05 13:38:12', '2019-08-05 13:38:12'),
+(49, 3, 1, NULL, 'M3', 'Building Next Generation Websites', '2019-08-05 13:38:13', '2019-08-05 13:38:13'),
+(50, 3, 1, NULL, 'M4', 'Programming with JavaScript', '2019-08-05 13:38:14', '2019-08-05 13:38:14'),
+(51, 3, 1, NULL, 'M5', 'Bootstrap and Jquery', '2019-08-05 13:38:15', '2019-08-05 13:38:15'),
+(52, 3, 1, NULL, 'M6', 'AngularJS', '2019-08-05 13:38:16', '2019-08-05 13:38:16'),
+(53, 3, 1, NULL, 'M7', 'UI/UX for Responsive Design', '2019-08-05 13:38:17', '2019-08-05 13:38:17'),
+(54, 3, 1, NULL, 'R1', 'Logic Building and Elementary Programming', '2019-08-05 13:38:18', '2019-08-05 13:38:18'),
+(55, 3, 1, NULL, 'R2', 'Building Next Generation Websites', '2019-08-05 13:38:19', '2019-08-05 13:38:19'),
+(56, 3, 1, NULL, 'R3', 'Programming with JavaScript', '2019-08-05 13:38:20', '2019-08-05 13:38:20'),
+(57, 3, 1, NULL, 'R4', 'Bootstrap and Jquery', '2019-08-05 13:38:21', '2019-08-05 13:38:21'),
+(58, 3, 1, NULL, 'R5', 'AngularJS', '2019-08-05 13:38:22', '2019-08-05 13:38:22'),
+(59, 3, 2, NULL, 'M1', 'Markup Language and JSON', '2019-08-05 13:38:24', '2019-08-05 13:38:24'),
+(60, 3, 2, NULL, 'M2', 'Database Management (SQL Server)', '2019-08-05 13:38:25', '2019-08-05 13:38:25'),
+(61, 3, 2, NULL, 'M3', 'Programming in C#', '2019-08-05 13:38:26', '2019-08-05 13:38:26'),
+(62, 3, 2, NULL, 'M4', 'Developing ASP.NET MVC Web Applications ', '2019-08-05 13:38:27', '2019-08-05 13:38:27'),
+(63, 3, 2, NULL, 'M5', 'Developing Microsoft Azure and Web Services ', '2019-08-05 13:38:28', '2019-08-05 13:38:28'),
+(64, 3, 2, NULL, 'R1', 'Database Management (SQL Server)', '2019-08-05 13:38:29', '2019-08-05 13:38:29'),
+(65, 3, 2, NULL, 'R2', 'Programming in C#', '2019-08-05 13:38:30', '2019-08-05 13:38:30'),
+(66, 3, 2, NULL, 'R3', 'Developing ASP.NET MVC Web Applications', '2019-08-05 13:38:31', '2019-08-05 13:38:31'),
+(67, 3, 2, NULL, 'R4', 'Developing Microsoft Azure and Web Services ', '2019-08-05 13:38:32', '2019-08-05 13:38:32'),
+(84, 3, 3, NULL, 'M1', 'Working with Content Management System', '2019-11-01 12:39:44', '2019-11-01 12:39:44'),
+(85, 3, 3, NULL, 'M2', 'Optimize Web for Search Engines', '2019-11-01 12:39:46', '2019-11-01 12:39:46'),
+(86, 3, 3, NULL, 'M3', 'Querying with MySQL', '2019-11-01 12:39:47', '2019-11-01 12:39:47'),
+(87, 3, 3, NULL, 'M4', 'Web Application Development using PHP', '2019-11-01 12:39:48', '2019-11-01 12:39:48'),
+(88, 3, 3, NULL, 'M5', 'PHP Framework for Web Applications', '2019-11-01 12:39:49', '2019-11-01 12:39:49'),
+(89, 3, 3, NULL, 'M6', 'Securing Web Applications', '2019-11-01 12:39:51', '2019-11-01 12:39:51'),
+(90, 3, 3, NULL, 'R1', 'Querying with MySQL', '2019-11-01 12:39:52', '2019-11-01 12:39:52'),
+(91, 3, 3, NULL, 'R2', 'Web Application Development using PHP', '2019-11-01 12:39:53', '2019-11-01 12:39:53'),
+(92, 3, 4, NULL, 'M1', 'Fundamentals of Java', '2020-10-15 11:35:28', '2020-10-15 11:35:28'),
+(93, 3, 4, NULL, 'M2', 'Android App Development', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
+(94, 3, 4, NULL, 'M3', 'XCode Application Development', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
+(95, 3, 4, NULL, 'M4', 'Programming in Swift', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
+(96, 3, 4, NULL, 'R1', 'Fundamentals of Java', '2020-10-15 11:35:29', '2020-10-15 11:35:29'),
+(97, 3, 4, NULL, 'R2', 'Android App Development', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
+(98, 3, 4, NULL, 'R3', 'XCode Application Development', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
+(99, 3, 4, NULL, 'R4', 'Programming in Swift', '2020-10-15 11:35:30', '2020-10-15 11:35:30'),
+(100, 3, 5, NULL, 'M1', 'Agile and DevOps ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(101, 3, 5, NULL, 'M2', 'Financial Data Analysis with MS Excel ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(102, 3, 5, NULL, 'M3', 'Python Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(103, 3, 5, NULL, 'M4', 'R Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(104, 3, 5, NULL, 'R1', 'Financial Data Analysis with MS Excel ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(105, 3, 5, NULL, 'R2', 'Python Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(106, 3, 5, NULL, 'R3', 'R Programming ', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(107, 3, 6, NULL, 'M1', 'IoT Hardware [Focus on sensors]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(108, 3, 6, NULL, 'M2', 'IoT Networking', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(109, 3, 6, NULL, 'M3', 'Programming the IoT [Python]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(110, 3, 6, NULL, 'R1', 'Programming the IoT [Python]', '2021-01-26 17:27:42', '2021-01-26 17:27:42'),
+(111, 4, 1, NULL, 'M1', 'Office Automation', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(112, 4, 1, NULL, 'M2', 'Building Modern Websites', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(113, 4, 1, NULL, 'M3', 'Bootstrap and Jquery', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(114, 4, 1, NULL, 'M4', 'UI/UX for Responsive Web Design', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(115, 4, 1, NULL, 'M5', 'Optimize Web for Search Engines', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(116, 4, 1, NULL, 'R1', 'Building Modern Websites', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(117, 4, 1, NULL, 'R2', 'Bootstrap and Jquery', '2021-10-18 17:06:38', '2021-10-18 17:06:38'),
+(118, 4, 2, NULL, 'M1', 'Distributed Version Control', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(119, 4, 2, NULL, 'M2', 'Markup Language & JSON', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(120, 4, 2, NULL, 'M3', 'Programming with JavaScript', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(121, 4, 2, NULL, 'M4', 'Working with MySQL', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(122, 4, 2, NULL, 'M5', 'Dynamic Website Development using PHP', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(123, 4, 2, NULL, 'M6', 'Laravel Framework for Web Applications using PHP ', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(124, 4, 2, NULL, 'R1', 'Programming with JavaScript', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(125, 4, 2, NULL, 'R2', 'Working with MySQL', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(126, 4, 2, NULL, 'R3', 'Dynamic Website Development using PHP', '2022-03-15 14:25:02', '2022-03-15 14:25:02'),
+(127, 4, 2, NULL, 'R4', 'Laravel Framework for Web Applications using PHP ', '2022-03-15 14:25:02', '2022-03-15 14:25:02');
 
 -- --------------------------------------------------------
 
@@ -14590,7 +14600,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('fyfckdPnVZrOe25EPdLQO26iPkzWLCD5T9owC9MI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNmhiY2tlTHdkbzNKVFhLRDB6OENrT1k3THdOSTRGOHQyRWM5cnF1byI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9sb2dpbiI7fX0=', 1678445339);
+('05t6yjHsHtD6bgounIZJEiqz0XRncapJJxwGwQpT', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZ0ZGVzRyM0dlMGVRdWJwME1nS0xJSDV1bDIxbVNvUmVGdGI5OVhEdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hbm5vdW5jZW1lbnQiO31zOjQ6InVzZXIiO3M6MTQ6IlN0dWRlbnQxMTQ0MDE5Ijt9', 1678872785);
 
 -- --------------------------------------------------------
 
@@ -14705,6 +14715,23 @@ INSERT INTO `skills` (`id`, `Curr_ID`, `Sem_ID`, `Skill`, `created_at`, `updated
 (103, 4, 2, 'Millennial Entrepreneurship', NULL, NULL),
 (104, 3, 6, 'Batch End', NULL, NULL),
 (105, 4, 2, 'GIT 01.Distributed Version Control (GIT)', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stdudent _profile`
+--
+
+DROP TABLE IF EXISTS `stdudent _profile`;
+CREATE TABLE IF NOT EXISTS `stdudent _profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Student_name` varchar(191) NOT NULL,
+  `Student_email` varchar(191) NOT NULL,
+  `Student_batch` varchar(191) NOT NULL,
+  `Student_Sem` bigint(20) NOT NULL,
+  `Student_image` varchar(191) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -15114,7 +15141,7 @@ INSERT INTO `students` (`Std_id`, `Std_Name`, `student_email`, `Course_Enrolled`
 ('Student1142636', 'Mr. RAHEEL  KHAN', '', 'OV-6673-ADSE', 'BC00004762', '2018-08-27', '923161124688', 36, '2019-06-03 11:50:53', '2019-06-03 11:50:53'),
 ('Student1142638', 'Mr. SYED  SHUJA ABBAS ZAIDI', '', 'OV-6673-ADSE', 'BC00004763', '2018-08-27', '923442790079', 51, '2019-06-03 11:45:44', '2019-06-03 11:45:44'),
 ('Student1142643', 'Mr. SHAHBAZ  ALI KHAN', '', 'OV-6673-DISM', 'BC00004764', '2018-08-27', '923302189626', 51, '2019-06-03 11:45:45', '2019-06-03 11:45:45'),
-('Student1142648', 'Mr. MUHAMMAD  AUSSAJA', '', 'OV-6740-DISM', 'BC00004983', '2018-11-23', '923333229129', 51, '2019-06-03 12:02:15', '2019-06-03 12:02:15'),
+('Student1142648', 'Mr. MUHAMMAD  AUSSAJA', 'kulsoom2010a@aptechgdn.net', 'OV-6740-DISM', 'BC00004983', '2018-11-23', '923333229129', 51, '2019-06-03 12:02:15', '2019-06-03 12:02:15'),
 ('Student1142973', 'Mr. ZEESHAN  .', '', 'OV-6740-ADSE', 'BC00004978', '2018-11-23', '923157666703', 51, '2019-06-03 12:02:13', '2019-06-03 12:02:13'),
 ('Student1143078', 'Mr. ARBAZ  AHMED', '', 'OV-6673-DISM', 'BC00004775', '2018-08-28', '923232885562', 36, '2019-06-03 11:45:40', '2019-06-03 11:45:40'),
 ('Student1143082', 'Mr. MUHAMMAD  SAAD', '', 'OV-6673-DISM', 'BC00004776', '2018-08-28', '923232182225', 50, '2019-06-03 11:45:42', '2019-06-03 11:45:42'),
@@ -15124,7 +15151,7 @@ INSERT INTO `students` (`Std_id`, `Std_Name`, `student_email`, `Course_Enrolled`
 ('Student1143966', 'Mr. GHAZANFAR  GOLANI', '', 'OV-6673-ADSE', 'BC00004784', '2018-08-30', '923362191429', 51, '2019-06-03 11:51:08', '2019-06-03 11:51:08'),
 ('Student1143982', 'Mr. MAISUM  RAZA', '', 'OV-6673-ADSE', 'BC00004786', '2018-08-30', '923152162297', 36, '2019-06-03 11:48:30', '2019-06-03 11:48:30'),
 ('Student1144005', 'Mr. MUHAMMAD  WAJAHAT', '', 'OV-6673-DISM', 'BC00004788', '2018-08-30', '923233049187', 50, '2019-06-03 11:46:21', '2019-06-03 11:46:21'),
-('Student1144019', 'Mr. MIRZA  ZAIN BAIG', '', 'OV-6740-DISM', 'BC00004980', '2018-11-23', '923162591493', 50, '2019-06-03 12:02:14', '2019-06-03 12:02:14'),
+('Student1144019', 'Mr. MIRZA  ZAIN BAIG', 'anus@aptechgdn.net', 'OV-6740-DISM', 'BC00004980', '2018-11-23', '923162591493', 50, '2019-06-03 12:02:14', '2019-06-03 12:02:14'),
 ('Student1144107', 'Mr. AKHTAR  AYUB', '', 'OV-6740-ADSE', 'BC00004976', '2018-11-23', '923112080130', 49, '2019-06-03 12:02:12', '2019-06-03 12:02:12'),
 ('Student1144117', 'Ms. SHAFAQ  .', '', 'OV-6673-DISM', 'BC00004791', '2018-08-30', '923433332603', 50, '2019-06-03 11:50:55', '2019-06-03 11:50:55'),
 ('Student1144121', 'Mr. MUHAMMAD  BILAL', '', 'OV-6673-DISM', 'BC00004792', '2018-08-30', '922132787403', 50, '2019-06-03 11:45:41', '2019-06-03 11:45:41'),
@@ -20059,14 +20086,15 @@ CREATE TABLE IF NOT EXISTS `usermodels` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usermodels_std_id_foreign` (`std_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `usermodels`
 --
 
 INSERT INTO `usermodels` (`id`, `name`, `email`, `password`, `std_id`, `created_at`, `updated_at`) VALUES
-(1, 'kulsoom', 'kulsoom2010a@aptechgdn.net', '123456789', 'Student1285773', '2023-03-10 05:48:57', '2023-03-10 05:48:57');
+(1, 'kulsoom', 'kulsoom2010a@aptechgdn.net', '123456789', 'Student1142648', '2023-03-10 05:48:57', '2023-03-10 05:48:57'),
+(2, 'anus', 'anus@aptechgdn.net', '12345678', 'Student1144019', '2023-03-14 00:09:00', '2023-03-14 00:09:00');
 
 -- --------------------------------------------------------
 
